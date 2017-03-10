@@ -217,7 +217,7 @@
 					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
 						<Type><![CDATA[double]]></Type>
 						<SdArray>false</SdArray>
-						<DefaultValue><![CDATA[0.8]]></DefaultValue>
+						<DefaultValue><![CDATA[0.9]]></DefaultValue>
 						<ParameterEditor>
 							<Id>1489139523727</Id>
 							<Name><![CDATA[]]></Name>
