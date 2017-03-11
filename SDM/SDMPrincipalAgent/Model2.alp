@@ -7,7 +7,7 @@
 <AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="7.0.2.201404181534" AlpVersion="7.0.2">
 <Model>
 	<Id>1489138516196</Id>
-	<Name><![CDATA[SDMPrincipalAgent]]></Name>
+	<Name><![CDATA[Model2]]></Name>
 	<EngineVersion>6</EngineVersion>
 	<JavaPackageName><![CDATA[model2]]></JavaPackageName>
 	<ModelTimeUnit><![CDATA[Day]]></ModelTimeUnit>
@@ -383,14 +383,18 @@
 				<Variable Class="Flow">
 					<Id>1489179277175</Id>
 					<Name><![CDATA[Выдача]]></Name>
-					<Description><![CDATA[PULSE('заработал за полностью отработанные дни';STARTTIME+1<<mo>>;1<<mo>>)]]></Description> 
+					<Description><![CDATA[PULSE('заработал за полностью отработанные дни';STARTTIME+1<<mo>>;1<<mo>>)
+
+
+
+]]></Description> 
 					<X>230</X><Y>530</Y>
 					<Label><X>0</X><Y>-20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SourceId="1489179376972" TargetId="1489179248008" External="false" Constant="false" Array="false">
-						<Formula><![CDATA[ЗаработалЗаОтрабДни]]></Formula>
+						<Formula><![CDATA[pulseTrain(1,1,14,10000)*ЗаработалЗаОтрабДни]]></Formula>
 						<Color/>
 						<ValveIndex>1</ValveIndex>
 						<Points>
@@ -422,7 +426,9 @@
 				<Variable Class="Flow">
 					<Id>1489180353445</Id>
 					<Name><![CDATA[ИмиджР]]></Name>
-					<Description><![CDATA[SAMPLEIF('сравнение с Планом'>0,95;ABS(EXP('сравнение с Планом')*К1);ABS(2*SQRT('сравнение с Планом')*К1))]]></Description> 
+					<Description><![CDATA[SAMPLEIF('сравнение с Планом'>0,95;ABS(EXP('сравнение с Планом')*К1);ABS(2*SQRT('сравнение с Планом')*К1))
+
+K1=1]]></Description> 
 					<X>540</X><Y>620</Y>
 					<Label><X>0</X><Y>-20</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -1077,7 +1083,7 @@
 					<Z>0</Z>
 					<ZHeight>10</ZHeight>
 					<LineWidth>1</LineWidth>
-					<LineColor>-65536</LineColor>
+					<LineColor>-3308225</LineColor>
 					<LineMaterial>null</LineMaterial>
 					<LineStyle>SOLID</LineStyle>
 					<RadiusX>20</RadiusX>
@@ -1268,7 +1274,63 @@
 					<SamplesToKeep>100</SamplesToKeep>
 					<TimeWindowExpression><![CDATA[100]]></TimeWindowExpression>
 					<CustomLabelFormat><![CDATA[dd.MM.yyyy HH:mm:ss]]></CustomLabelFormat>
-					<LabelFormat>MODEL_TIME_UNITS</LabelFormat>
+					<LabelFormat>MODEL_DATE_DATE_ONLY</LabelFormat>
+    			</TimePlot>
+    			<TimePlot>
+					<Id>1489224368437</Id>
+					<Name><![CDATA[plot2]]></Name>
+					<X>730</X><Y>780</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<AutoUpdate>true</AutoUpdate>
+					<RecurrenceCode><![CDATA[1]]></RecurrenceCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Width>260</Width>
+					<Height>210</Height>
+					<BackgroundColor/>
+					<BorderColor/>
+					<ChartArea>
+						<XOffset>50</XOffset>
+						<YOffset>30</YOffset>
+						<Width>180</Width>
+						<Height>120</Height>
+						<BackgroundColor>-1</BackgroundColor>
+						<BorderColor>-16777216</BorderColor>
+						<GridColor>-12566464</GridColor>
+					</ChartArea>
+					<Legend>
+						<Place>SOUTH</Place>
+						<TextColor>-16777216</TextColor>
+						<Size>30</Size>
+					</Legend>
+					<Labels>
+						<HorLabelsPosition>DEFAULT</HorLabelsPosition>
+						<VerLabelsPosition>DEFAULT</VerLabelsPosition>
+						<TextColor>-12566464</TextColor>
+					</Labels>
+					<Persistent>true</Persistent>
+					<ShowLegend>true</ShowLegend>
+					<TimeWindowsMovementType>MOVEMENT_WITH_TIME</TimeWindowsMovementType>		
+					<TimeWindowUnits>MODEL_TIME_UNIT</TimeWindowUnits>
+					<VerScaleFromExpression><![CDATA[0]]></VerScaleFromExpression>
+					<VerScaleToExpression><![CDATA[1]]></VerScaleToExpression>
+					<VerScaleType>AUTO</VerScaleType>
+					<DrawLine>true</DrawLine>
+					<Interpolation>LINEAR</Interpolation>
+					<DatasetExpression>  
+						<Title><![CDATA[Выдача]]></Title>
+					<Color>-9728477</Color>
+					<Expression2><![CDATA[Выдача]]></Expression2>
+					<Expression2Flag>true</Expression2Flag>
+						<PointStyle>CIRCLE</PointStyle>
+						<LineWidth>1</LineWidth>
+					</DatasetExpression>
+					<SamplesToKeep>100</SamplesToKeep>
+					<TimeWindowExpression><![CDATA[100]]></TimeWindowExpression>
+					<CustomLabelFormat><![CDATA[dd.MM.yyyy HH:mm:ss]]></CustomLabelFormat>
+					<LabelFormat>MODEL_DATE_DATE_ONLY</LabelFormat>
     			</TimePlot>
 			</Charts>
 
