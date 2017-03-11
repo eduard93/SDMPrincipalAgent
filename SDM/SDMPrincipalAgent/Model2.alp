@@ -72,7 +72,7 @@
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties External="false" Constant="false" Array="false">
-						<Formula><![CDATA[0.4+0.6*УдовлетворениеЗП/НормаЗП]]></Formula>
+						<Formula><![CDATA[0.4+0.6*УдовлетворениеЗП]]></Formula>
 						<Value><![CDATA[0]]></Value>
 						<Color/>
 					</Properties>
@@ -97,16 +97,20 @@
 				<Variable Class="AuxVariable">
 					<Id>1489177333348</Id>
 					<Name><![CDATA[План]]></Name>
-					<Description><![CDATA[IF(Выполнено>0.9, Выполнено*1.1, (Выполнено+1)/2+0.000001)]]></Description> 
+					<Description><![CDATA[IF(Выполнено>0.9, Выполнено*1.1, (Выполнено+1)/2+0.000001)
+
+
+Изначальный вариант:
+DELAYMTR(выполнено+STEP(1/5*выполнено;STARTTIME+1<<mo>>);2<<mo>>;1)]]></Description> 
 					<X>540</X><Y>540</Y>
 					<Label><X>0</X><Y>-20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties External="false" Constant="false" Array="false">
-						<Formula><![CDATA[Выполнено+0.1]]></Formula>
+						<Formula><![CDATA[IF(Выполнено>0.9, Выполнено*1.1, (Выполнено+1)/2+0.5) ]]></Formula>
 						<Value><![CDATA[0]]></Value>
-						<Color/>
+						<Color>-8388608</Color>
 					</Properties>
 
 				</Variable>
@@ -130,7 +134,7 @@
 					<Name><![CDATA[УдовлетворениеЗП]]></Name>
 					<Description><![CDATA[SAMPLEIF((Выдача)> 30*Норма; SQRT(Выдача*Норма/100); -SQRT(2*Норма*Выдача/100))
 
-
+smooth(Выдача/НормаЗП,14)
 
 
 ]]></Description> 
@@ -140,9 +144,9 @@
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties External="false" Constant="false" Array="false">
-						<Formula><![CDATA[Выдача/НормаЗП]]></Formula>
+						<Formula><![CDATA[1+(Выдача+НормаЗП)*0]]></Formula>
 						<Value><![CDATA[0]]></Value>
-						<Color/>
+						<Color>-65536</Color>
 					</Properties>
 
 				</Variable>
@@ -156,9 +160,9 @@
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties External="false" Constant="false" Array="false">
-						<Formula><![CDATA[НакопительЗП]]></Formula>
+						<Formula><![CDATA[delay(НакопительЗП,1 ,0)]]></Formula>
 						<Value><![CDATA[0]]></Value>
-						<Color/>
+						<Color>-14774017</Color>
 					</Properties>
 
 				</Variable>
@@ -218,9 +222,9 @@
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties External="false" Constant="false" Array="false">
-						<Formula><![CDATA[НакопленныйОпытОбщения]]></Formula>
+						<Formula><![CDATA[delay1(НакопленныйОпытОбщения, 14, НакопленныйОпытОбщения)]]></Formula>
 						<Value><![CDATA[0]]></Value>
-						<Color/>
+						<Color>-14774017</Color>
 					</Properties>
 
 				</Variable>
@@ -300,7 +304,7 @@
 					<EquationStyle>classic</EquationStyle>
 					<Width>20</Width>
 					<Height>20</Height>
-						<InitialValue><![CDATA[0]]></InitialValue>
+						<InitialValue><![CDATA[0.5]]></InitialValue>
 						<Color/>
 					</Properties>
 				</Variable>
@@ -395,7 +399,7 @@
 					<ShowLabel>true</ShowLabel>
 					<Properties SourceId="1489179376972" TargetId="1489179248008" External="false" Constant="false" Array="false">
 						<Formula><![CDATA[pulseTrain(1,1,14,10000)*ЗаработалЗаОтрабДни]]></Formula>
-						<Color/>
+						<Color>-14774017</Color>
 						<ValveIndex>1</ValveIndex>
 						<Points>
 							<Point><X>0</X><Y>0</Y></Point>
@@ -413,7 +417,9 @@
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties TargetId="1489179376972" External="false" Constant="false" Array="false">
-						<Formula><![CDATA[ОбщееУдовольствие*УдовольствиеНачОтР]]></Formula>
+						<Formula><![CDATA[max(
+  ОбщееУдовольствие*УдовольствиеНачОтР, 
+  0)]]></Formula>
 						<Color/>
 						<ValveIndex>1</ValveIndex>
 						<Points>
@@ -435,8 +441,11 @@ K1=1]]></Description>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties TargetId="1489180358997" External="false" Constant="false" Array="false">
-						<Formula><![CDATA[СравнениеСПланом]]></Formula>
-						<Color/>
+						<Formula><![CDATA[IF(
+   delay(СравнениеСПланом, 7, 1)>0.95, 
+   min(ОтношениеКР+0.01, 1),
+   max(ОтношениеКР-0.01, -1))]]></Formula>
+						<Color>-8388608</Color>
 						<ValveIndex>1</ValveIndex>
 						<Points>
 							<Point><X>0</X><Y>0</Y></Point>
@@ -520,7 +529,7 @@ K1=1]]></Description>
 					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
 						<Type><![CDATA[double]]></Type>
 						<SdArray>false</SdArray>
-						<DefaultValue><![CDATA[0.9]]></DefaultValue>
+						<DefaultValue><![CDATA[1]]></DefaultValue>
 						<ParameterEditor>
 							<Id>1489139523727</Id>
 							<Name><![CDATA[]]></Name>
@@ -982,13 +991,13 @@ K1=1]]></Description>
 					<LineWidth>1</LineWidth>
 					<Delay>false</Delay>
 				</Link>
-				<Link SourceId="1489178969932" TargetId="1489138796885" Polarity="null">
-					<Height>-37.79214636376994</Height>
+				<Link SourceId="1489180358997" TargetId="1489180353445" Polarity="null">
+					<Height>20.0</Height>
 					<PolarityPosition>0.95</PolarityPosition>
-					<Direction><X>-60</X><Y>-50</Y></Direction>
-					<Id>1489181000830</Id>
-					<Name><![CDATA[НормаЗП - ВнешняяМотивация]]></Name>
-					<X>340</X><Y>430</Y>
+					<Direction><X>-100</X><Y>0</Y></Direction>
+					<Id>1489228140963</Id>
+					<Name><![CDATA[ОтношениеКР - ИмиджР]]></Name>
+					<X>740</X><Y>620</Y>
 					<Label><X>40</X><Y>-50</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -998,6 +1007,38 @@ K1=1]]></Description>
 					<Delay>false</Delay>
 				</Link>
 			</Dependences>
+			<Functions>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1489226176938</Id>
+					<Name><![CDATA[IF]]></Name>
+					<X>20</X><Y>970</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[condition]]></Name>
+						<Type><![CDATA[boolean]]></Type>
+					</Parameter>
+					<Parameter>
+						<Name><![CDATA[trueVal]]></Name>
+						<Type><![CDATA[double]]></Type>
+					</Parameter>
+					<Parameter>
+						<Name><![CDATA[falseVal]]></Name>
+						<Type><![CDATA[double]]></Type>
+					</Parameter>
+					<Body><![CDATA[double out = 0;
+if (condition) {
+   out = trueVal;
+} else {
+   out = falseVal;
+}
+return out;]]></Body>
+				</Function>
+			</Functions>
 			<AgentLinks>
 				<AgentLink>
 					<Id>1489138516197</Id>
@@ -1022,146 +1063,6 @@ K1=1]]></Description>
 			</AgentLinks>
 
 
-			<Shapes>
-				<Oval>
-					<Id>1489179185543</Id>
-					<Name><![CDATA[oval]]></Name>
-					<X>230</X><Y>430</Y>
-					<Label><X>0</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<ZHeight>10</ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor>-65536</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<RadiusX>20</RadiusX>
-					<RadiusY>40</RadiusY>
-					<Rotation>0.0</Rotation>
-					<FillColor>-1</FillColor>
-					<FillMaterial>null</FillMaterial>
-				</Oval>
-				<Oval>
-					<Id>1489179772225</Id>
-					<Name><![CDATA[oval2]]></Name>
-					<X>290</X><Y>570</Y>
-					<Label><X>0</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<ZHeight>10</ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor>-65536</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<RadiusX>20</RadiusX>
-					<RadiusY>40</RadiusY>
-					<Rotation>0.0</Rotation>
-					<FillColor>-1</FillColor>
-					<FillMaterial>null</FillMaterial>
-				</Oval>
-				<Oval>
-					<Id>1489179858728</Id>
-					<Name><![CDATA[oval3]]></Name>
-					<X>320</X><Y>530</Y>
-					<Label><X>0</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<ZHeight>10</ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor>-3308225</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<RadiusX>20</RadiusX>
-					<RadiusY>40</RadiusY>
-					<Rotation>0.0</Rotation>
-					<FillColor>-1</FillColor>
-					<FillMaterial>null</FillMaterial>
-				</Oval>
-				<Oval>
-					<Id>1489180494648</Id>
-					<Name><![CDATA[oval5]]></Name>
-					<X>640</X><Y>620</Y>
-					<Label><X>0</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<ZHeight>10</ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor>-65536</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<RadiusX>20</RadiusX>
-					<RadiusY>40</RadiusY>
-					<Rotation>0.0</Rotation>
-					<FillColor>-1</FillColor>
-					<FillMaterial>null</FillMaterial>
-				</Oval>
-				<Oval>
-					<Id>1489180503939</Id>
-					<Name><![CDATA[oval6]]></Name>
-					<X>540</X><Y>540</Y>
-					<Label><X>0</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<ZHeight>10</ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor>-65536</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<RadiusX>20</RadiusX>
-					<RadiusY>40</RadiusY>
-					<Rotation>0.0</Rotation>
-					<FillColor>-1</FillColor>
-					<FillMaterial>null</FillMaterial>
-				</Oval>
-				<Oval>
-					<Id>1489180732704</Id>
-					<Name><![CDATA[oval7]]></Name>
-					<X>300</X><Y>620</Y>
-					<Label><X>0</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AsObject>true</AsObject>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<ZHeight>10</ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor>-65536</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<RadiusX>20</RadiusX>
-					<RadiusY>40</RadiusY>
-					<Rotation>0.0</Rotation>
-					<FillColor>-1</FillColor>
-					<FillMaterial>null</FillMaterial>
-				</Oval>
-			</Shapes>
 			<Charts>
     			<TimePlot>
 					<Id>1489139949153</Id>
@@ -1323,6 +1224,62 @@ K1=1]]></Description>
 						<Title><![CDATA[Выдача]]></Title>
 					<Color>-9728477</Color>
 					<Expression2><![CDATA[Выдача]]></Expression2>
+					<Expression2Flag>true</Expression2Flag>
+						<PointStyle>CIRCLE</PointStyle>
+						<LineWidth>1</LineWidth>
+					</DatasetExpression>
+					<SamplesToKeep>100</SamplesToKeep>
+					<TimeWindowExpression><![CDATA[100]]></TimeWindowExpression>
+					<CustomLabelFormat><![CDATA[dd.MM.yyyy HH:mm:ss]]></CustomLabelFormat>
+					<LabelFormat>MODEL_DATE_DATE_ONLY</LabelFormat>
+    			</TimePlot>
+    			<TimePlot>
+					<Id>1489227109970</Id>
+					<Name><![CDATA[plot3]]></Name>
+					<X>460</X><Y>760</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<AutoUpdate>true</AutoUpdate>
+					<RecurrenceCode><![CDATA[1]]></RecurrenceCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Width>260</Width>
+					<Height>210</Height>
+					<BackgroundColor/>
+					<BorderColor/>
+					<ChartArea>
+						<XOffset>50</XOffset>
+						<YOffset>30</YOffset>
+						<Width>180</Width>
+						<Height>120</Height>
+						<BackgroundColor>-1</BackgroundColor>
+						<BorderColor>-16777216</BorderColor>
+						<GridColor>-12566464</GridColor>
+					</ChartArea>
+					<Legend>
+						<Place>SOUTH</Place>
+						<TextColor>-16777216</TextColor>
+						<Size>30</Size>
+					</Legend>
+					<Labels>
+						<HorLabelsPosition>DEFAULT</HorLabelsPosition>
+						<VerLabelsPosition>DEFAULT</VerLabelsPosition>
+						<TextColor>-12566464</TextColor>
+					</Labels>
+					<Persistent>true</Persistent>
+					<ShowLegend>true</ShowLegend>
+					<TimeWindowsMovementType>MOVEMENT_WITH_TIME</TimeWindowsMovementType>		
+					<TimeWindowUnits>MODEL_TIME_UNIT</TimeWindowUnits>
+					<VerScaleFromExpression><![CDATA[0]]></VerScaleFromExpression>
+					<VerScaleToExpression><![CDATA[1]]></VerScaleToExpression>
+					<VerScaleType>AUTO</VerScaleType>
+					<DrawLine>true</DrawLine>
+					<Interpolation>LINEAR</Interpolation>
+					<DatasetExpression>  
+						<Title><![CDATA[План]]></Title>
+					<Color>-9807155</Color>
+					<Expression2><![CDATA[План]]></Expression2>
 					<Expression2Flag>true</Expression2Flag>
 						<PointStyle>CIRCLE</PointStyle>
 						<LineWidth>1</LineWidth>
