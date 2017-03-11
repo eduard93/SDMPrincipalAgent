@@ -88,7 +88,7 @@
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties External="false" Constant="false" Array="false">
-						<Formula><![CDATA[random()/4]]></Formula>
+						<Formula><![CDATA[random()/2]]></Formula>
 						<Value><![CDATA[0]]></Value>
 						<Color/>
 					</Properties>
@@ -108,7 +108,10 @@ DELAYMTR(выполнено+STEP(1/5*выполнено;STARTTIME+1<<mo>>);2<<mo
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties External="false" Constant="false" Array="false">
-						<Formula><![CDATA[IF(Выполнено>0.9, Выполнено*1.1, (Выполнено+1)/2+0.5) ]]></Formula>
+						<Formula><![CDATA[IF(
+   Выполнено>0.8, 
+   Выполнено*1.0001, 
+   (Выполнено+1)/2+0.0001) ]]></Formula>
 						<Value><![CDATA[0]]></Value>
 						<Color>-8388608</Color>
 					</Properties>
@@ -485,7 +488,7 @@ K1=1]]></Description>
 					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
 						<Type><![CDATA[double]]></Type>
 						<SdArray>false</SdArray>
-						<DefaultValue><![CDATA[0.12]]></DefaultValue>
+						<DefaultValue><![CDATA[0.2]]></DefaultValue>
 						<ParameterEditor>
 							<Id>1489139110259</Id>
 							<Name><![CDATA[]]></Name>
